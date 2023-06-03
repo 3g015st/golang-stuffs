@@ -1,0 +1,41 @@
+name: Go Build And Deploy to AWS Lambda
+env:
+  APP_NAME: 'AWS Lambda Deployment'
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.20'  # Set the Go version you want to use
+
+      - name: Create .env file
+        run: |
+          echo "APP_NAME=${{ env.APP_NAME }}" >>  devops/aws-lambda-deployment/cmd
+          # Add more environment variables as needed
+
+      - name: Build the Go application
+        run: |
+          cd devops/aws-lambda-deployment/cmd && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -a -o bootstrap *.go && zip deployment.zip .env bootstrap
+
+      - name: Upload to AWS Lambda
+        uses: appleboy/aws-lambda-action@v1
+        with:
+          aws_access_key_id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          region: ap-southeast-1  
+          function_name: go_staging
+          zip_file: devops/aws-lambda-deployment/cmd/deployment.zip
