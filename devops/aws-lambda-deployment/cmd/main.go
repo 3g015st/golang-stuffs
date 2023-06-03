@@ -15,6 +15,6 @@ func main() {
 	}
 	
 	appName := os.Getenv("APP_NAME")
-    fmt.Println("AWS Lambda Deployment Sample")
+    fmt.Println("AWS Lambda Deployment Sample!")
 	fmt.Println("App Name : ", appName)
 }
