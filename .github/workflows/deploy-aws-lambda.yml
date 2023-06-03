@@ -43,4 +43,5 @@ jobs:
           aws_secret_access_key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws_region: ap-southeast-1  
           function_name: go_staging
+          runtime: go1.x
           zip_file: devops/aws-lambda-deployment/cmd/deployment.zip
