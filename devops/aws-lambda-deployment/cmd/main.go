@@ -37,7 +37,7 @@ func main() {
 	lambdaServer := os.Getenv("_LAMBDA_SERVER_PORT")
 	
 	appName := os.Getenv("APP_NAME")
-    fmt.Println("AWS Lambda Deployment Sample")
+    fmt.Println("AWS Lambda Deployment Sample!")
 	fmt.Println("App Name : ", appName)
 	fmt.Println("Lamda Server : ", lambdaServer)
 
