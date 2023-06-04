@@ -17,7 +17,6 @@ type EventBridgeMessage struct {
 }
 
 func handler(ctx context.Context, event events.CloudWatchEvent) error {
-	// Parse the event detail into a map[string]interface{}
 	var msg EventBridgeMessage
 	if err := json.Unmarshal(event.Detail, &msg); err != nil {
 		fmt.Println("Unmarshal error", err.Error())
